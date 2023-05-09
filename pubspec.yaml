@@ -16,6 +16,8 @@ dependencies:
   intl: ^0.17.0
   local_storage_todos_api:
     path: packages/local_storage_todos_api
+  sqlite_todos_api:
+    path: packages/sqlite_todos_api
   todos_api:
     path: packages/todos_api
   todos_repository:

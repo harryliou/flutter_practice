@@ -29,7 +29,8 @@ class TodosOverviewView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.todosOverviewAppBarTitle),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text('List of Todos'),
         actions: const [
           TodosOverviewFilterButton(),
           TodosOverviewOptionsButton(),

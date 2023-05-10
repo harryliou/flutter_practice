@@ -1,81 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_todos/edit_todo/edit_todo.dart';
-import 'package:flutter_todos/home/home.dart';
-import 'package:flutter_todos/stats/stats.dart';
-import 'package:flutter_todos/todos_overview/todos_overview.dart';
+import 'package:flutter_todos/store/store.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class PageWithSideBar extends StatefulWidget {
+  const PageWithSideBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomeCubit(),
-      child: const HomeView(),
-    );
-  }
+  State<PageWithSideBar> createState() => _PageWithSideBarState();
 }
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class _PageWithSideBarState extends State<PageWithSideBar> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final selectedTab = context.select((HomeCubit cubit) => cubit.state.tab);
-
+    Widget page;
+    switch (_selectedIndex) {
+      case 0:
+        page = const Placeholder();
+        break;
+      case 1:
+        page = const StorePage();
+        break;
+      default:
+        throw UnimplementedError('$_selectedIndex is not implemented');
+    }
     return Scaffold(
-      body: IndexedStack(
-        index: selectedTab.index,
-        children: const [TodosOverviewPage(), StatsPage()],
+      appBar: AppBar(
+        //ADDED APP BAR
+        title: const Text('Flutter Todos'),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        key: const Key('homeView_addTodo_floatingActionButton'),
-        onPressed: () => Navigator.of(context).push(EditTodoPage.route()),
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      // drawer: const Placeholder(),
+      drawer: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _HomeTabButton(
-              groupValue: selectedTab,
-              value: HomeTab.todos,
-              icon: const Icon(Icons.list_rounded),
+            IconButton(
+              iconSize: 50,
+              icon: const Icon(Icons.list),
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 0;
+                });
+                Navigator.pop(context);
+              },
             ),
-            _HomeTabButton(
-              groupValue: selectedTab,
-              value: HomeTab.stats,
-              icon: const Icon(Icons.show_chart_rounded),
+            IconButton(
+              iconSize: 50,
+              icon: const Icon(Icons.store),
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 1;
+                });
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _HomeTabButton extends StatelessWidget {
-  const _HomeTabButton({
-    required this.groupValue,
-    required this.value,
-    required this.icon,
-  });
-
-  final HomeTab groupValue;
-  final HomeTab value;
-  final Widget icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () => context.read<HomeCubit>().setTab(value),
-      iconSize: 32,
-      color:
-          groupValue != value ? null : Theme.of(context).colorScheme.secondary,
-      icon: icon,
+      body: page,
     );
   }
 }

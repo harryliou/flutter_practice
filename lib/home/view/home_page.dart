@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todos/list/list.dart';
 import 'package:flutter_todos/store/store.dart';
 
 class PageWithSideBar extends StatefulWidget {
@@ -16,7 +17,7 @@ class _PageWithSideBarState extends State<PageWithSideBar> {
     Widget page;
     switch (_selectedIndex) {
       case 0:
-        page = const Placeholder();
+        page = const ListPage();
         break;
       case 1:
         page = const StorePage();
@@ -25,10 +26,10 @@ class _PageWithSideBarState extends State<PageWithSideBar> {
         throw UnimplementedError('$_selectedIndex is not implemented');
     }
     return Scaffold(
-      appBar: AppBar(
-        //ADDED APP BAR
-        title: const Text('Flutter Todos'),
-      ),
+      // appBar: AppBar(
+      //   //ADDED APP BAR
+      //   title: const Text('Flutter Todos'),
+      // ),
       // drawer: const Placeholder(),
       drawer: SafeArea(
         child: Column(

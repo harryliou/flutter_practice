@@ -1,55 +1,51 @@
 part of 'list_bloc.dart';
 
-abstract class TodosOverviewEvent extends Equatable {
-  const TodosOverviewEvent();
+abstract class ListEvent extends Equatable {
+  const ListEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class TodosOverviewSubscriptionRequested extends TodosOverviewEvent {
-  const TodosOverviewSubscriptionRequested();
+class ListSubscriptionRequested extends ListEvent {
+  const ListSubscriptionRequested();
 }
 
-class TodosOverviewTodoCompletionToggled extends TodosOverviewEvent {
-  const TodosOverviewTodoCompletionToggled({
-    required this.todo,
-    required this.isCompleted,
+class ListTodoAtStoreToggled extends ListEvent {
+  const ListTodoAtStoreToggled({
+    required this.goods,
+    required this.atStore,
   });
 
-  final Todo todo;
-  final bool isCompleted;
+  final Goods goods;
+  final bool atStore;
 
   @override
-  List<Object> get props => [todo, isCompleted];
+  List<Object> get props => [goods, atStore];
 }
 
-class TodosOverviewTodoDeleted extends TodosOverviewEvent {
-  const TodosOverviewTodoDeleted(this.todo);
+class ListTodoDeleted extends ListEvent {
+  const ListTodoDeleted(this.goods);
 
-  final Todo todo;
+  final Goods goods;
 
   @override
-  List<Object> get props => [todo];
+  List<Object> get props => [goods];
 }
 
-class TodosOverviewUndoDeletionRequested extends TodosOverviewEvent {
-  const TodosOverviewUndoDeletionRequested();
+class ListUndoDeletionRequested extends ListEvent {
+  const ListUndoDeletionRequested();
 }
 
-class TodosOverviewFilterChanged extends TodosOverviewEvent {
-  const TodosOverviewFilterChanged(this.filter);
+class ListFilterChanged extends ListEvent {
+  const ListFilterChanged(this.filter);
 
-  final TodosViewFilter filter;
+  final GoodsViewFilter filter;
 
   @override
   List<Object> get props => [filter];
 }
 
-class TodosOverviewToggleAllRequested extends TodosOverviewEvent {
-  const TodosOverviewToggleAllRequested();
-}
-
-class TodosOverviewClearCompletedRequested extends TodosOverviewEvent {
-  const TodosOverviewClearCompletedRequested();
+class ListToggleAllRequested extends ListEvent {
+  const ListToggleAllRequested();
 }

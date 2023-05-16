@@ -1,5 +1,5 @@
-name: flutter_todos
-description: An example todos app that showcases bloc state management patterns.
+name: flutter_store
+description: An example store app that showcases bloc state management patterns.
 version: 1.0.0+1
 publish_to: none
 
@@ -13,15 +13,13 @@ dependencies:
   flutter_bloc: ^8.1.2
   flutter_localizations:
     sdk: flutter
+  goods_api:
+    path: packages/goods_api
+  goods_repository:
+    path: packages/goods_repository
   intl: ^0.17.0
-  local_storage_todos_api:
-    path: packages/local_storage_todos_api
-  sqlite_todos_api:
-    path: packages/sqlite_todos_api
-  todos_api:
-    path: packages/todos_api
-  todos_repository:
-    path: packages/todos_repository
+  sqlite_goods_api:
+    path: packages/sqlite_goods_api
 
 dev_dependencies:
   bloc_test: ^9.1.1

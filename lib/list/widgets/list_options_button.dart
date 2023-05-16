@@ -1,55 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_todos/l10n/l10n.dart';
-import 'package:flutter_todos/todos_overview/todos_overview.dart';
+import 'package:flutter_store/list/list.dart';
 
 @visibleForTesting
-enum TodosOverviewOption { toggleAll, clearCompleted }
+enum ListOption { toggleAll }
 
-class TodosOverviewOptionsButton extends StatelessWidget {
-  const TodosOverviewOptionsButton({super.key});
+class ListOptionsButton extends StatelessWidget {
+  const ListOptionsButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
+    final goods = context.select((ListBloc bloc) => bloc.state.goods);
+    final hasGoods = goods.isNotEmpty;
+    final atStoreAmount = goods.where((goods) => goods.atStore).length;
 
-    final todos = context.select((TodosOverviewBloc bloc) => bloc.state.todos);
-    final hasTodos = todos.isNotEmpty;
-    final completedTodosAmount = todos.where((todo) => todo.isCompleted).length;
-
-    return PopupMenuButton<TodosOverviewOption>(
+    return PopupMenuButton<ListOption>(
       shape: const ContinuousRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-      tooltip: l10n.todosOverviewOptionsTooltip,
       onSelected: (options) {
         switch (options) {
-          case TodosOverviewOption.toggleAll:
-            context
-                .read<TodosOverviewBloc>()
-                .add(const TodosOverviewToggleAllRequested());
+          case ListOption.toggleAll:
+            context.read<ListBloc>().add(const ListToggleAllRequested());
             break;
-          case TodosOverviewOption.clearCompleted:
-            context
-                .read<TodosOverviewBloc>()
-                .add(const TodosOverviewClearCompletedRequested());
         }
       },
       itemBuilder: (context) {
         return [
           PopupMenuItem(
-            value: TodosOverviewOption.toggleAll,
-            enabled: hasTodos,
+            value: ListOption.toggleAll,
+            enabled: hasGoods,
             child: Text(
-              completedTodosAmount == todos.length
-                  ? l10n.todosOverviewOptionsMarkAllIncomplete
-                  : l10n.todosOverviewOptionsMarkAllComplete,
+              atStoreAmount == goods.length
+                  ? 'Mark All In Store'
+                  : 'Mark All Not In Store',
             ),
-          ),
-          PopupMenuItem(
-            value: TodosOverviewOption.clearCompleted,
-            enabled: hasTodos && completedTodosAmount > 0,
-            child: Text(l10n.todosOverviewOptionsClearCompleted),
           ),
         ];
       },

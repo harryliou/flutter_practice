@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_todos/home/home.dart';
-import 'package:flutter_todos/l10n/l10n.dart';
-import 'package:flutter_todos/theme/theme.dart';
-import 'package:todos_repository/todos_repository.dart';
+import 'package:flutter_store/home/home.dart';
+import 'package:flutter_store/theme/theme.dart';
+import 'package:goods_repository/goods_repository.dart';
 
 class App extends StatelessWidget {
-  const App({super.key, required this.todosRepository});
+  const App({super.key, required this.goodsRepository});
 
-  final TodosRepository todosRepository;
+  final GoodsRepository goodsRepository;
 
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: todosRepository,
+      value: goodsRepository,
       child: const AppView(),
     );
   }
@@ -25,12 +24,10 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: FlutterTodosTheme.light,
-      darkTheme: FlutterTodosTheme.dark,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      theme: FlutterGoodsTheme.light,
+      darkTheme: FlutterGoodsTheme.dark,
       debugShowCheckedModeBanner: false,
-      home: const PageWithSideBar(),
+      home: const HomePage(),
     );
   }
 }

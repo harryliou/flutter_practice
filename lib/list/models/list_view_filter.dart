@@ -1,20 +1,20 @@
-import 'package:todos_repository/todos_repository.dart';
+import 'package:goods_repository/goods_repository.dart';
 
-enum TodosViewFilter { all, activeOnly, completedOnly }
+enum GoodsViewFilter { all, notAtStoreOnly, atStoreOnly }
 
-extension TodosViewFilterX on TodosViewFilter {
-  bool apply(Todo todo) {
+extension TodosViewFilterX on GoodsViewFilter {
+  bool apply(Goods goods) {
     switch (this) {
-      case TodosViewFilter.all:
+      case GoodsViewFilter.all:
         return true;
-      case TodosViewFilter.activeOnly:
-        return !todo.isCompleted;
-      case TodosViewFilter.completedOnly:
-        return todo.isCompleted;
+      case GoodsViewFilter.notAtStoreOnly:
+        return !goods.atStore;
+      case GoodsViewFilter.atStoreOnly:
+        return goods.atStore;
     }
   }
 
-  Iterable<Todo> applyAll(Iterable<Todo> todos) {
-    return todos.where(apply);
+  Iterable<Goods> applyAll(Iterable<Goods> goods) {
+    return goods.where(apply);
   }
 }

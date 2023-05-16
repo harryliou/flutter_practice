@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todos/list/list.dart';
-import 'package:flutter_todos/store/store.dart';
+import 'package:flutter_store/list/list.dart';
+// import 'package:flutter_store/store/store.dart';
 
-class PageWithSideBar extends StatefulWidget {
-  const PageWithSideBar({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<PageWithSideBar> createState() => _PageWithSideBarState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _PageWithSideBarState extends State<PageWithSideBar> {
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   @override
@@ -20,17 +20,13 @@ class _PageWithSideBarState extends State<PageWithSideBar> {
         page = const ListPage();
         break;
       case 1:
-        page = const StorePage();
+        // page = const StorePage();
+        page = const Placeholder();
         break;
       default:
         throw UnimplementedError('$_selectedIndex is not implemented');
     }
     return Scaffold(
-      // appBar: AppBar(
-      //   //ADDED APP BAR
-      //   title: const Text('Flutter Todos'),
-      // ),
-      // drawer: const Placeholder(),
       drawer: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

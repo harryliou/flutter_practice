@@ -17,6 +17,7 @@ class EditGoodsState extends Equatable {
     this.capacity = 0,
     this.quantity = 0,
     this.soldQuantity = 0,
+    this.unitPrice = 0,
     DateTime? purchaseDate,
     DateTime? expirationDate,
   })  : purchaseDate = purchaseDate ??
@@ -37,6 +38,7 @@ class EditGoodsState extends Equatable {
   final String name;
   final int capacity;
   final int quantity;
+  final int unitPrice;
   final int soldQuantity;
   final DateTime purchaseDate;
   final DateTime expirationDate;
@@ -50,6 +52,7 @@ class EditGoodsState extends Equatable {
     int? capacity,
     int? quantity,
     int? soldQuantity,
+    int? unitPrice,
     DateTime? purchaseDate,
     DateTime? expirationDate,
   }) {
@@ -59,6 +62,7 @@ class EditGoodsState extends Equatable {
       name: name ?? this.name,
       capacity: capacity ?? this.capacity,
       quantity: quantity ?? this.quantity,
+      unitPrice: unitPrice ?? this.unitPrice,
       soldQuantity: soldQuantity ?? this.soldQuantity,
       purchaseDate: purchaseDate ?? this.purchaseDate,
       expirationDate: expirationDate ?? this.expirationDate,
@@ -73,6 +77,7 @@ class EditGoodsState extends Equatable {
         capacity,
         quantity,
         soldQuantity,
+        unitPrice,
         purchaseDate,
         expirationDate,
       ];

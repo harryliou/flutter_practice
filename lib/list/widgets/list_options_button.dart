@@ -13,8 +13,6 @@ class ListOptionsButton extends StatelessWidget {
     final goods = context.select((ListBloc bloc) => bloc.state.goods);
     final hasGoods = goods.isNotEmpty;
     final atStoreAmount = goods.where((goods) => goods.atStore).length;
-    print('atStoreAmount ${atStoreAmount}');
-    print('goods.length ${goods.length}');
 
     return PopupMenuButton<ListOption>(
       shape: const ContinuousRectangleBorder(

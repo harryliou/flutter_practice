@@ -48,7 +48,7 @@ class GoodsListView extends StatelessWidget {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
-                    SnackBar(content: Text('List Failure')),
+                    const SnackBar(content: Text('List Failure')),
                   );
               }
             },

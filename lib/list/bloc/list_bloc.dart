@@ -12,7 +12,7 @@ class ListBloc extends Bloc<ListEvent, ListState> {
   })  : _goodsRepository = goodsRepository,
         super(const ListState()) {
     on<ListSubscriptionRequested>(_onSubscriptionRequested);
-    on<ListGoodsAtStoreToggled>(_onTodoCompletionToggled);
+    on<ListGoodsAtStoreToggled>(_onGoodsCompletionToggled);
     on<ListGoodsDeleted>(_onTodoDeleted);
     on<ListUndoDeletionRequested>(_onUndoDeletionRequested);
     on<ListFilterChanged>(_onFilterChanged);
@@ -39,7 +39,7 @@ class ListBloc extends Bloc<ListEvent, ListState> {
     );
   }
 
-  Future<void> _onTodoCompletionToggled(
+  Future<void> _onGoodsCompletionToggled(
     ListGoodsAtStoreToggled event,
     Emitter<ListState> emit,
   ) async {

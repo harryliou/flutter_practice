@@ -18,9 +18,11 @@ class SqliteGoodsApi extends GoodsApi {
         'capacity INTEGER, '
         'quantity INTEGER, '
         'soldQuantity INTEGER, '
+        'unitPrice INTEGER, '
         'purchaseDate TEXT, '
         'expirationDate TEXT, '
-        'atStore INTEGER '
+        'atStore INTEGER, '
+        'atStoreQuantity INTEGER '
         ')');
   }
 
@@ -45,9 +47,11 @@ class SqliteGoodsApi extends GoodsApi {
           capacity: goods['capacity'] as int,
           quantity: goods['quantity'] as int,
           soldQuantity: goods['soldQuantity'] as int,
+          unitPrice: goods['unitPrice'] as int,
           purchaseDate: DateTime.parse(goods['purchaseDate'] as String),
           expirationDate: DateTime.parse(goods['expirationDate'] as String),
           atStore: goods['atStore'] == 1,
+          atStoreQuantity: goods['atStoreQuantity'] as int,
         );
       }).toList();
       _goodsStreamController.add(goods);
@@ -107,9 +111,11 @@ class SqliteGoodsApi extends GoodsApi {
       'capacity': goods.capacity,
       'quantity': goods.quantity,
       'soldQuantity': goods.soldQuantity,
+      'unitPrice': goods.unitPrice,
       'purchaseDate': goods.purchaseDate.toIso8601String(),
       'expirationDate': goods.expirationDate.toIso8601String(),
       'atStore': goods.atStore ? 1 : 0,
+      'atStoreQuantity': goods.atStoreQuantity,
     };
     await db.insert(
       'goods',

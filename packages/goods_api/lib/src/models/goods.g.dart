@@ -15,6 +15,8 @@ Goods _$GoodsFromJson(Map<String, dynamic> json) => Goods(
       purchaseDate: DateTime.parse(json['purchaseDate'] as String),
       expirationDate: DateTime.parse(json['expirationDate'] as String),
       atStore: json['atStore'] as bool,
+      atStoreQuantity: json['atStoreQuantity'] as int,
+      unitPrice: json['unitPrice'] as int,
     );
 
 Map<String, dynamic> _$GoodsToJson(Goods instance) => <String, dynamic>{
@@ -26,4 +28,6 @@ Map<String, dynamic> _$GoodsToJson(Goods instance) => <String, dynamic>{
       'purchaseDate': instance.purchaseDate.toIso8601String(),
       'expirationDate': instance.expirationDate.toIso8601String(),
       'atStore': instance.atStore,
+      'atStoreQuantity': instance.atStoreQuantity,
+      'unitPrice': instance.unitPrice,
     };

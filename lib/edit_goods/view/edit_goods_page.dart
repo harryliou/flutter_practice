@@ -76,6 +76,7 @@ class EditGoodsView extends StatelessWidget {
               children: [
                 const _NameField(),
                 _CapacityField(),
+                _UnitPriceField(),
                 _QuantityField(),
                 if (isNewGoods) const SizedBox() else _SoldQuantityField(),
                 _PurchaseDateField(),
@@ -108,7 +109,7 @@ class _NameField extends StatelessWidget {
       maxLength: 50,
       inputFormatters: [
         LengthLimitingTextInputFormatter(50),
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
+        // FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
       ],
       onChanged: (value) {
         context.read<EditGoodsBloc>().add(EditGoodsNameChanged(value));
@@ -152,13 +153,13 @@ class _CapacityFieldState extends State<_CapacityField> {
                     onSelectedItemChanged: (index) {
                       setState(() {
                         _selectedCapacity = index;
-                        editGoodsBloc.add(EditGoodsCapacityChanged(index));
+                        editGoodsBloc.add(EditGoodsCapacityChanged(index * 10));
                       });
                     },
                     children: List.generate(
                       500,
                       (index) => Text(
-                        index.toString(),
+                        (index * 10).toString(),
                         style: const TextStyle(fontSize: 20),
                       ),
                     ),
@@ -170,7 +171,66 @@ class _CapacityFieldState extends State<_CapacityField> {
           child: const Text('Select Capacity'),
         ),
         const SizedBox(width: 20),
-        Text(_selectedCapacity.toString()),
+        Text((_selectedCapacity * 10).toString()),
+      ],
+    );
+  }
+}
+
+class _UnitPriceField extends StatefulWidget {
+  @override
+  _UnitPriceFieldState createState() => _UnitPriceFieldState();
+}
+
+class _UnitPriceFieldState extends State<_UnitPriceField> {
+  late int _selectedUnitPrice;
+  bool _initialized = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final editGoodsBloc = context.watch<EditGoodsBloc>();
+    final state = editGoodsBloc.state;
+    if (!_initialized) {
+      _selectedUnitPrice = state.initialGoods?.unitPrice ?? 0;
+      _initialized = true;
+    }
+
+    return Row(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            showModalBottomSheet<Widget>(
+              context: context,
+              builder: (context) {
+                return SizedBox(
+                  height: 200,
+                  child: CupertinoPicker(
+                    scrollController: FixedExtentScrollController(
+                      initialItem: _selectedUnitPrice,
+                    ),
+                    itemExtent: 32,
+                    onSelectedItemChanged: (index) {
+                      setState(() {
+                        _selectedUnitPrice = index;
+                        editGoodsBloc.add(EditGoodsUnitPriceChanged(index));
+                      });
+                    },
+                    children: List.generate(
+                      3000,
+                      (index) => Text(
+                        index.toString(),
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+          child: const Text('Select Unit Price'),
+        ),
+        const SizedBox(width: 20),
+        Text(_selectedUnitPrice.toString()),
       ],
     );
   }

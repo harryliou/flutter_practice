@@ -26,10 +26,10 @@ class GoodsListTitle extends StatelessWidget {
       direction: DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,
-        color: theme.colorScheme.error,
+        color: const Color.fromARGB(170, 7, 211, 72),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: const Icon(
-          Icons.delete,
+          Icons.remove,
           color: Color(0xAAFFFFFF),
         ),
       ),
@@ -53,16 +53,12 @@ class GoodsListTitle extends StatelessWidget {
                 'Expiration Date: ${'${goods.expirationDate.toLocal()}'.split(' ')[0]}'),
           ],
         ),
-        leading: Checkbox(
-          shape: const ContinuousRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          value: goods.atStore,
-          onChanged: onToggleAtStore == null
-              ? null
-              : (value) => onToggleAtStore!(value!),
+        trailing: Text(
+          '${goods.atStoreQuantity}',
+          //red
+          style: theme.textTheme.bodySmall
+              ?.copyWith(color: const Color(0xFFE57373)),
         ),
-        trailing: onTap == null ? null : const Icon(Icons.chevron_right),
       ),
     );
   }

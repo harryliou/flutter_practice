@@ -10,7 +10,7 @@ part 'goods.g.dart';
 /// A single `goods` item.
 ///
 /// Contains a [name], [capacity], [quantity], [soldQuantity], [purchaseDate],
-/// [expirationDate] and [id], in addition to a [atStore]
+/// [unitPrice], [expirationDate], [atStoreQuantity] and [id], in addition to a [atStore]
 /// flag.
 ///
 /// If an [id] is provided, it cannot be empty. If no [id] is provided, one
@@ -30,9 +30,11 @@ class Goods extends Equatable {
     this.capacity = 0,
     this.quantity = 0,
     this.soldQuantity = 0,
+    this.unitPrice = 0,
     DateTime? purchaseDate,
     DateTime? expirationDate,
     this.atStore = false,
+    this.atStoreQuantity = 0,
   })  : assert(
           id == null || id.isNotEmpty,
           'id can not be null and should be empty',
@@ -66,6 +68,11 @@ class Goods extends Equatable {
   /// Note that the sold quantity may be empty.
   final int soldQuantity;
 
+  /// The unit price of the `goods`.
+  ///
+  /// Note that the unit pric may be empty.
+  final int unitPrice;
+
   /// The purchase date of the `goods`.
   ///
   /// Note that the purchase date may be empty.
@@ -81,6 +88,11 @@ class Goods extends Equatable {
   /// Defaults to `false`.
   final bool atStore;
 
+  /// The quantity of the `goods` at store.
+  ///
+  /// Note that the quantity may be empty.
+  final int atStoreQuantity;
+
   /// Returns a copy of this `todo` with the given values updated.
   ///
   /// {@macro goods_item}
@@ -90,9 +102,11 @@ class Goods extends Equatable {
     int? capacity,
     int? quantity,
     int? soldQuantity,
+    int? unitPrice,
     DateTime? purchaseDate,
     DateTime? expirationDate,
     bool? atStore,
+    int? atStoreQuantity,
   }) {
     return Goods(
       id: id ?? this.id,
@@ -100,9 +114,11 @@ class Goods extends Equatable {
       capacity: capacity ?? this.capacity,
       quantity: quantity ?? this.quantity,
       soldQuantity: soldQuantity ?? this.soldQuantity,
+      unitPrice: unitPrice ?? this.unitPrice,
       purchaseDate: purchaseDate ?? this.purchaseDate,
       expirationDate: expirationDate ?? this.expirationDate,
       atStore: atStore ?? this.atStore,
+      atStoreQuantity: atStoreQuantity ?? this.atStoreQuantity,
     );
   }
 
@@ -119,8 +135,10 @@ class Goods extends Equatable {
         capacity,
         quantity,
         soldQuantity,
+        unitPrice,
         purchaseDate,
         expirationDate,
-        atStore
+        atStore,
+        atStoreQuantity
       ];
 }

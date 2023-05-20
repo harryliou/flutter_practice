@@ -17,6 +17,7 @@ class EditGoodsBloc extends Bloc<EditGoodsEvent, EditGoodsState> {
             capacity: initialGoods?.capacity ?? 0,
             quantity: initialGoods?.quantity ?? 0,
             soldQuantity: initialGoods?.soldQuantity ?? 0,
+            unitPrice: initialGoods?.unitPrice ?? 0,
             purchaseDate: initialGoods?.purchaseDate ?? DateTime.now(),
             expirationDate: initialGoods?.expirationDate ?? DateTime.now(),
           ),
@@ -28,6 +29,7 @@ class EditGoodsBloc extends Bloc<EditGoodsEvent, EditGoodsState> {
     on<EditGoodsPurchaseDateChanged>(_onPurchaseDateChanged);
     on<EditGoodsExpirationDateChanged>(_onExpirationDateChanged);
     on<EditGoodsSubmitted>(_onSubmitted);
+    on<EditGoodsUnitPriceChanged>(_onUnitPriceChanged);
   }
 
   final GoodsRepository _goodsRepository;
@@ -74,6 +76,13 @@ class EditGoodsBloc extends Bloc<EditGoodsEvent, EditGoodsState> {
     emit(state.copyWith(expirationDate: event.expirationDate));
   }
 
+  void _onUnitPriceChanged(
+    EditGoodsUnitPriceChanged event,
+    Emitter<EditGoodsState> emit,
+  ) {
+    emit(state.copyWith(unitPrice: event.unitPrice));
+  }
+
   Future<void> _onSubmitted(
     EditGoodsSubmitted event,
     Emitter<EditGoodsState> emit,
@@ -86,6 +95,7 @@ class EditGoodsBloc extends Bloc<EditGoodsEvent, EditGoodsState> {
       soldQuantity: state.soldQuantity,
       purchaseDate: state.purchaseDate,
       expirationDate: state.expirationDate,
+      unitPrice: state.unitPrice,
     );
 
     try {

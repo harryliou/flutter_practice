@@ -61,6 +61,15 @@ class EditGoodsExpirationDateChanged extends EditGoodsEvent {
   List<Object> get props => [expirationDate];
 }
 
+class EditGoodsUnitPriceChanged extends EditGoodsEvent {
+  const EditGoodsUnitPriceChanged(this.unitPrice);
+
+  final int unitPrice;
+
+  @override
+  List<Object> get props => [unitPrice];
+}
+
 class EditGoodsSubmitted extends EditGoodsEvent {
   const EditGoodsSubmitted();
 }

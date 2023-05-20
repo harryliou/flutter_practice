@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_store/list/list.dart';
-// import 'package:flutter_store/store/store.dart';
+import 'package:flutter_store/store/store.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 1:
         // page = const StorePage();
-        page = const Placeholder();
+        page = const StorePage();
         break;
       default:
         throw UnimplementedError('$_selectedIndex is not implemented');

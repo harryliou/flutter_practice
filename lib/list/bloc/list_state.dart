@@ -15,7 +15,7 @@ class ListState extends Equatable {
   final GoodsViewFilter filter;
   final Goods? lastDeletedGoods;
 
-  Iterable<Goods> get filteredGoods => filter.applyAll(goods);
+  List<Goods> get filteredGoods => filter.applyAll(goods).toList();
 
   ListState copyWith({
     ListStatus Function()? status,

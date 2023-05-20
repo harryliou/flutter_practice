@@ -11,8 +11,8 @@ class ListSubscriptionRequested extends ListEvent {
   const ListSubscriptionRequested();
 }
 
-class ListTodoAtStoreToggled extends ListEvent {
-  const ListTodoAtStoreToggled({
+class ListGoodsAtStoreToggled extends ListEvent {
+  const ListGoodsAtStoreToggled({
     required this.goods,
     required this.atStore,
   });
@@ -24,8 +24,8 @@ class ListTodoAtStoreToggled extends ListEvent {
   List<Object> get props => [goods, atStore];
 }
 
-class ListTodoDeleted extends ListEvent {
-  const ListTodoDeleted(this.goods);
+class ListGoodsDeleted extends ListEvent {
+  const ListGoodsDeleted(this.goods);
 
   final Goods goods;
 

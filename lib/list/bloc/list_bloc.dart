@@ -12,8 +12,8 @@ class ListBloc extends Bloc<ListEvent, ListState> {
   })  : _goodsRepository = goodsRepository,
         super(const ListState()) {
     on<ListSubscriptionRequested>(_onSubscriptionRequested);
-    on<ListTodoAtStoreToggled>(_onTodoCompletionToggled);
-    on<ListTodoDeleted>(_onTodoDeleted);
+    on<ListGoodsAtStoreToggled>(_onTodoCompletionToggled);
+    on<ListGoodsDeleted>(_onTodoDeleted);
     on<ListUndoDeletionRequested>(_onUndoDeletionRequested);
     on<ListFilterChanged>(_onFilterChanged);
     on<ListToggleAllRequested>(_onToggleAllRequested);
@@ -40,7 +40,7 @@ class ListBloc extends Bloc<ListEvent, ListState> {
   }
 
   Future<void> _onTodoCompletionToggled(
-    ListTodoAtStoreToggled event,
+    ListGoodsAtStoreToggled event,
     Emitter<ListState> emit,
   ) async {
     final newGoods = event.goods.copyWith(atStore: event.atStore);
@@ -48,7 +48,7 @@ class ListBloc extends Bloc<ListEvent, ListState> {
   }
 
   Future<void> _onTodoDeleted(
-    ListTodoDeleted event,
+    ListGoodsDeleted event,
     Emitter<ListState> emit,
   ) async {
     emit(state.copyWith(lastDeletedGoods: () => event.goods));
@@ -80,7 +80,7 @@ class ListBloc extends Bloc<ListEvent, ListState> {
     ListToggleAllRequested event,
     Emitter<ListState> emit,
   ) async {
-    final areAllatStored = state.goods.every((todo) => todo.atStore);
+    final areAllatStored = state.goods.every((goods) => goods.atStore);
     await _goodsRepository.atStoreAll(atStore: !areAllatStored);
   }
 }

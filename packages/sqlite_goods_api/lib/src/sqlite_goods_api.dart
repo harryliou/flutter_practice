@@ -59,19 +59,16 @@ class SqliteGoodsApi extends GoodsApi {
   @override
   Future<int> atStoreAll({required bool atStore}) async {
     final db = await SqliteGoodsApi.db();
-    final goods = [..._goodsStreamController.value];
-    final changedGoodsAmount = goods.where((t) => t.atStore != atStore).length;
+    final goodsList = [..._goodsStreamController.value];
+    final changedGoodsAmount =
+        goodsList.where((t) => t.atStore != atStore).length;
     final newGoods = [
-      for (final todo in goods) todo.copyWith(atStore: atStore)
+      for (final goods in goodsList) goods.copyWith(atStore: atStore)
     ];
     _goodsStreamController.add(newGoods);
-    await db.update(
-      'goods',
-      {
-        'atStore': atStore ? 1 : 0,
-      },
-      where: 'id = ?',
-    );
+    await db.update('goods', {
+      'atStore': atStore ? 1 : 0,
+    });
     return changedGoodsAmount;
   }
 

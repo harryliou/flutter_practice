@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(flutter_todos LANGUAGES CXX)
+project(essential_oil_store LANGUAGES CXX)
 
-set(BINARY_NAME "flutter_todos")
+set(BINARY_NAME "essential_oil_store")
 
 cmake_policy(SET CMP0063 NEW)
 

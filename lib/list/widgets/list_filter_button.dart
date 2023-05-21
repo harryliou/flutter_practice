@@ -21,15 +21,15 @@ class ListFilterButton extends StatelessWidget {
         return const [
           PopupMenuItem(
             value: GoodsViewFilter.all,
-            child: Text('ALL'),
+            child: Text('顯示全部精油'),
           ),
           PopupMenuItem(
             value: GoodsViewFilter.notAtStoreOnly,
-            child: Text('Not in Store Only'),
+            child: Text('顯示不在商店的精油'),
           ),
           PopupMenuItem(
             value: GoodsViewFilter.atStoreOnly,
-            child: Text('In Store Only'),
+            child: Text('在商店的精油'),
           ),
         ];
       },

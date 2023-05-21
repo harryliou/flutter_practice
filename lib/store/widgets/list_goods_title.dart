@@ -43,14 +43,12 @@ class GoodsListTitle extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Capacity: ${goods.capacity}'),
-            Text('Unit Price: ${goods.unitPrice}'),
-            Text('Quantity: ${goods.quantity}'),
-            Text('Sold Quantity: ${goods.soldQuantity}'),
-            Text(
-                'Purchase Date: ${'${goods.purchaseDate.toLocal()}'.split(' ')[0]}'),
-            Text(
-                'Expiration Date: ${'${goods.expirationDate.toLocal()}'.split(' ')[0]}'),
+            Text('容量: ${goods.capacity}'),
+            Text('單價: ${goods.unitPrice}'),
+            Text('進貨數量: ${goods.quantity}'),
+            Text('已售出數量: ${goods.soldQuantity}'),
+            Text('進貨日期: ${'${goods.purchaseDate.toLocal()}'.split(' ')[0]}'),
+            Text('過期日期: ${'${goods.expirationDate.toLocal()}'.split(' ')[0]}'),
           ],
         ),
         trailing: Text(

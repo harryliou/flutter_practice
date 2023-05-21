@@ -26,7 +26,7 @@ class GoodsListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Store'),
+        title: const Text('商店'),
       ),
       body: MultiBlocListener(
         listeners: [
@@ -55,7 +55,7 @@ class GoodsListView extends StatelessWidget {
               } else {
                 return Center(
                   child: Text(
-                    'No Goods',
+                    '無精油',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 );
@@ -106,34 +106,48 @@ class GoodsListView extends StatelessWidget {
                                     showModalBottomSheet<Widget>(
                                       context: context,
                                       builder: (context) {
-                                        return SizedBox(
-                                          height: 200,
-                                          child: CupertinoPicker(
-                                            scrollController:
-                                                FixedExtentScrollController(
-                                              initialItem:
-                                                  goods.atStoreQuantity,
+                                        return Column(
+                                          children: [
+                                            Text(
+                                              '設定${goods.name}即將售出數量',
                                             ),
-                                            itemExtent: 32,
-                                            onSelectedItemChanged: (index) {
-                                              listBloc.add(
-                                                ListAtStoreQuantityChanged(
-                                                  goods: goods,
-                                                  atStoreQuantity: index,
+                                            SizedBox(
+                                              height: 200,
+                                              child: CupertinoPicker(
+                                                scrollController:
+                                                    FixedExtentScrollController(
+                                                  initialItem:
+                                                      goods.atStoreQuantity,
                                                 ),
-                                              );
-                                            },
-                                            children: List.generate(
-                                              (goods.quantity -
-                                                      goods.soldQuantity) +
-                                                  1,
-                                              (index) => Text(
-                                                index.toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 20),
+                                                itemExtent: 32,
+                                                onSelectedItemChanged: (index) {
+                                                  listBloc.add(
+                                                    ListAtStoreQuantityChanged(
+                                                      goods: goods,
+                                                      atStoreQuantity: index,
+                                                    ),
+                                                  );
+                                                },
+                                                children: List.generate(
+                                                  ((goods.quantity -
+                                                              goods
+                                                                  .soldQuantity) >=
+                                                          0)
+                                                      ? (goods.quantity -
+                                                              goods
+                                                                  .soldQuantity) +
+                                                          1
+                                                      : 1,
+                                                  (index) => Text(
+                                                    index.toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         );
                                       },
                                     );
@@ -148,17 +162,16 @@ class GoodsListView extends StatelessWidget {
                     SizedBox(
                       height: columnHeight,
                       child: Column(
-                        // 下半部分的內容
                         children: [
-                          Text('Total items: ${state.atStoreGoods.length}'),
-                          Text('Total price: ${state.atStoreGoodsTotalPrice}'),
+                          Text('目前商店精油總數量: ${state.atStoreGoods.length}'),
+                          Text('即將售出價格: ${state.atStoreGoodsTotalPrice}'),
                           ElevatedButton(
                             onPressed: () {
                               listBloc.add(
                                 const ListAtStoreSell(),
                               );
                             },
-                            child: const Text('Sell'),
+                            child: const Text('售出'),
                           ),
                         ],
                       ),

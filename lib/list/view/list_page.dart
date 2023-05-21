@@ -27,7 +27,7 @@ class GoodsListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('List of Goods'),
+        title: const Text('清單'),
         actions: const [
           ListFilterButton(),
           ListOptionsButton(),
@@ -65,10 +65,10 @@ class GoodsListView extends StatelessWidget {
                 ..showSnackBar(
                   SnackBar(
                     content: Text(
-                      'The name of the goods that was deleted: ${deltedGoods.name}',
+                      '已刪除精油項目: ${deltedGoods.name}',
                     ),
                     action: SnackBarAction(
-                      label: 'undo',
+                      label: '取消並回復',
                       onPressed: () {
                         messager.hideCurrentSnackBar();
                         context
@@ -90,7 +90,7 @@ class GoodsListView extends StatelessWidget {
             } else {
               return Center(
                 child: Text(
-                  'No Goods',
+                  '無精油',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               );

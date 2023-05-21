@@ -31,9 +31,7 @@ class ListOptionsButton extends StatelessWidget {
             value: ListOption.toggleAll,
             enabled: hasGoods,
             child: Text(
-              atStoreAmount == goods.length
-                  ? 'Mark All Not In Store'
-                  : 'Mark All In Store',
+              atStoreAmount == goods.length ? '將全部精油從入商店移除' : '將全部精油加入商店',
             ),
           ),
         ];

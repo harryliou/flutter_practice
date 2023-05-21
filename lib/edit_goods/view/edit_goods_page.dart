@@ -50,7 +50,7 @@ class EditGoodsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          isNewGoods ? 'Add Goods' : 'Edit Goods',
+          isNewGoods ? '新增精油' : '編輯精油',
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -103,7 +103,7 @@ class _NameField extends StatelessWidget {
       initialValue: state.name,
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
-        labelText: 'Goods Name',
+        labelText: '名稱',
         hintText: hintText,
       ),
       maxLength: 50,
@@ -168,7 +168,7 @@ class _CapacityFieldState extends State<_CapacityField> {
               },
             );
           },
-          child: const Text('Select Capacity'),
+          child: const Text('設定容量'),
         ),
         const SizedBox(width: 20),
         Text((_selectedCapacity * 10).toString()),
@@ -227,7 +227,7 @@ class _UnitPriceFieldState extends State<_UnitPriceField> {
               },
             );
           },
-          child: const Text('Select Unit Price'),
+          child: const Text('設定單價'),
         ),
         const SizedBox(width: 20),
         Text(_selectedUnitPrice.toString()),
@@ -286,7 +286,7 @@ class _QuantityFieldState extends State<_QuantityField> {
               },
             );
           },
-          child: const Text('Select Quantity'),
+          child: const Text('設定數量'),
         ),
         const SizedBox(width: 20),
         Text(_selectedQuantity.toString()),
@@ -347,7 +347,7 @@ class _SoldQuantityFieldState extends State<_SoldQuantityField> {
               },
             );
           },
-          child: const Text('Select Sold Quantity'),
+          child: const Text('設定已售出數量'),
         ),
         const SizedBox(width: 20),
         Text(_selectedSoldQuantity.toString()),
@@ -391,9 +391,10 @@ class _ExpirationDateFieldState extends State<_ExpirationDateField> {
               initialDate: _selectedDate,
               firstDate: DateTime(2000),
               lastDate: DateTime(2100),
+              locale: const Locale('zh', 'TW'),
             ).then(dateSelected);
           },
-          child: const Text('Select Expiration Date'),
+          child: const Text('設定過期日期'),
         ),
         const SizedBox(width: 20),
         Text('${_selectedDate.toLocal()}'.split(' ')[0]),
@@ -428,6 +429,7 @@ class _PurchaseDateFieldState extends State<_PurchaseDateField> {
               initialDate: _selectedDate,
               firstDate: DateTime(2000),
               lastDate: DateTime(2100),
+              locale: const Locale('zh', 'TW'),
             ).then((date) {
               setState(() {
                 _selectedDate = date ?? _selectedDate;
@@ -437,7 +439,7 @@ class _PurchaseDateFieldState extends State<_PurchaseDateField> {
               });
             });
           },
-          child: const Text('Select Purchase Date'),
+          child: const Text('設定進貨日期'),
         ),
         const SizedBox(width: 20),
         Text('${_selectedDate.toLocal()}'.split(' ')[0]),

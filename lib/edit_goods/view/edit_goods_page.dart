@@ -75,10 +75,13 @@ class EditGoodsView extends StatelessWidget {
             child: Column(
               children: [
                 const _NameField(),
-                _CapacityField(),
-                _UnitPriceField(),
-                _QuantityField(),
-                if (isNewGoods) const SizedBox() else _SoldQuantityField(),
+                const _CapacityField(),
+                const _UnitPriceField(),
+                const _QuantityField(),
+                if (isNewGoods)
+                  const SizedBox()
+                else
+                  const _SoldQuantityField(),
                 _PurchaseDateField(),
                 _ExpirationDateField(),
               ],
@@ -118,240 +121,130 @@ class _NameField extends StatelessWidget {
   }
 }
 
-class _CapacityField extends StatefulWidget {
-  @override
-  _CapacityFieldState createState() => _CapacityFieldState();
-}
-
-class _CapacityFieldState extends State<_CapacityField> {
-  late int _selectedCapacity;
-  bool _initialized = false;
+class _CapacityField extends StatelessWidget {
+  const _CapacityField();
 
   @override
   Widget build(BuildContext context) {
-    final editGoodsBloc = context.watch<EditGoodsBloc>();
-    final state = editGoodsBloc.state;
-    if (!_initialized) {
-      _selectedCapacity = state.initialGoods?.capacity ?? 0;
-      _initialized = true;
-    }
+    final state = context.watch<EditGoodsBloc>().state;
 
-    return Row(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            showModalBottomSheet<Widget>(
-              context: context,
-              builder: (context) {
-                return SizedBox(
-                  height: 200,
-                  child: CupertinoPicker(
-                    scrollController: FixedExtentScrollController(
-                      initialItem: _selectedCapacity,
-                    ),
-                    itemExtent: 32,
-                    onSelectedItemChanged: (index) {
-                      setState(() {
-                        _selectedCapacity = index;
-                        editGoodsBloc.add(EditGoodsCapacityChanged(index * 10));
-                      });
-                    },
-                    children: List.generate(
-                      500,
-                      (index) => Text(
-                        (index * 10).toString(),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-          child: const Text('設定容量'),
-        ),
-        const SizedBox(width: 20),
-        Text((_selectedCapacity * 10).toString()),
+    return TextFormField(
+      key: const Key('editGoodsForm_capacityInput_textField'),
+      keyboardType: TextInputType.number,
+      initialValue: (state.initialGoods?.capacity ?? 0).toString(),
+      decoration: InputDecoration(
+        enabled: !state.status.isLoadingOrSuccess,
+        labelText: '設定容量',
+      ),
+      maxLength: 25,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(25),
+        FilteringTextInputFormatter.allow(RegExp(r'[Z0-9\s]')),
       ],
+      onChanged: (value) {
+        if (value == '') {
+          value = '0';
+        }
+        context.read<EditGoodsBloc>().add(
+              EditGoodsCapacityChanged(int.parse(value)),
+            );
+      },
     );
   }
 }
 
-class _UnitPriceField extends StatefulWidget {
-  @override
-  _UnitPriceFieldState createState() => _UnitPriceFieldState();
-}
-
-class _UnitPriceFieldState extends State<_UnitPriceField> {
-  late int _selectedUnitPrice;
-  bool _initialized = false;
+class _UnitPriceField extends StatelessWidget {
+  const _UnitPriceField();
 
   @override
   Widget build(BuildContext context) {
-    final editGoodsBloc = context.watch<EditGoodsBloc>();
-    final state = editGoodsBloc.state;
-    if (!_initialized) {
-      _selectedUnitPrice = state.initialGoods?.unitPrice ?? 0;
-      _initialized = true;
-    }
+    final state = context.watch<EditGoodsBloc>().state;
 
-    return Row(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            showModalBottomSheet<Widget>(
-              context: context,
-              builder: (context) {
-                return SizedBox(
-                  height: 200,
-                  child: CupertinoPicker(
-                    scrollController: FixedExtentScrollController(
-                      initialItem: _selectedUnitPrice,
-                    ),
-                    itemExtent: 32,
-                    onSelectedItemChanged: (index) {
-                      setState(() {
-                        _selectedUnitPrice = index;
-                        editGoodsBloc.add(EditGoodsUnitPriceChanged(index));
-                      });
-                    },
-                    children: List.generate(
-                      3000,
-                      (index) => Text(
-                        index.toString(),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-          child: const Text('設定單價'),
-        ),
-        const SizedBox(width: 20),
-        Text(_selectedUnitPrice.toString()),
+    return TextFormField(
+      key: const Key('editGoodsForm_unitPriceInput_textField'),
+      keyboardType: TextInputType.number,
+      initialValue: (state.initialGoods?.unitPrice ?? 0).toString(),
+      decoration: InputDecoration(
+        enabled: !state.status.isLoadingOrSuccess,
+        labelText: '設定單價',
+      ),
+      maxLength: 25,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(25),
+        FilteringTextInputFormatter.allow(RegExp(r'[Z0-9\s]')),
       ],
+      onChanged: (value) {
+        if (value == '') {
+          value = '0';
+        }
+        context.read<EditGoodsBloc>().add(
+              EditGoodsUnitPriceChanged(int.parse(value)),
+            );
+      },
     );
   }
 }
 
-class _QuantityField extends StatefulWidget {
-  @override
-  _QuantityFieldState createState() => _QuantityFieldState();
-}
-
-class _QuantityFieldState extends State<_QuantityField> {
-  late int _selectedQuantity;
-  bool _initialized = false;
+class _QuantityField extends StatelessWidget {
+  const _QuantityField();
 
   @override
   Widget build(BuildContext context) {
-    final editGoodsBloc = context.watch<EditGoodsBloc>();
-    final state = editGoodsBloc.state;
-    if (!_initialized) {
-      _selectedQuantity = state.initialGoods?.quantity ?? 0;
-      _initialized = true;
-    }
+    final state = context.watch<EditGoodsBloc>().state;
 
-    return Row(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            showModalBottomSheet<Widget>(
-              context: context,
-              builder: (context) {
-                return SizedBox(
-                  height: 200,
-                  child: CupertinoPicker(
-                    scrollController: FixedExtentScrollController(
-                      initialItem: _selectedQuantity,
-                    ),
-                    itemExtent: 32,
-                    onSelectedItemChanged: (index) {
-                      setState(() {
-                        _selectedQuantity = index;
-                        editGoodsBloc.add(EditGoodsQuantityChanged(index));
-                      });
-                    },
-                    children: List.generate(
-                      500,
-                      (index) => Text(
-                        index.toString(),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-          child: const Text('設定數量'),
-        ),
-        const SizedBox(width: 20),
-        Text(_selectedQuantity.toString()),
+    return TextFormField(
+      key: const Key('editGoodsForm_quantityInput_textField'),
+      keyboardType: TextInputType.number,
+      initialValue: (state.initialGoods?.quantity ?? 0).toString(),
+      decoration: InputDecoration(
+        enabled: !state.status.isLoadingOrSuccess,
+        labelText: '設定進貨數量',
+      ),
+      maxLength: 25,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(25),
+        FilteringTextInputFormatter.allow(RegExp(r'[Z0-9\s]')),
       ],
+      onChanged: (value) {
+        if (value == '') {
+          value = '0';
+        }
+        context.read<EditGoodsBloc>().add(
+              EditGoodsQuantityChanged(int.parse(value)),
+            );
+      },
     );
   }
 }
 
-class _SoldQuantityField extends StatefulWidget {
-  @override
-  _SoldQuantityFieldState createState() => _SoldQuantityFieldState();
-}
-
-class _SoldQuantityFieldState extends State<_SoldQuantityField> {
-  late int _selectedSoldQuantity;
-  late int _setQuantity;
-  bool _initialized = false;
+class _SoldQuantityField extends StatelessWidget {
+  const _SoldQuantityField();
 
   @override
   Widget build(BuildContext context) {
-    final editGoodsBloc = context.watch<EditGoodsBloc>();
-    final state = editGoodsBloc.state;
-    if (!_initialized) {
-      _selectedSoldQuantity = state.initialGoods?.soldQuantity ?? 0;
-      _setQuantity = state.initialGoods?.quantity ?? 0;
-      _initialized = true;
-    }
+    final state = context.watch<EditGoodsBloc>().state;
 
-    return Row(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            showModalBottomSheet<Widget>(
-              context: context,
-              builder: (context) {
-                return SizedBox(
-                  height: 200,
-                  child: CupertinoPicker(
-                    scrollController: FixedExtentScrollController(
-                      initialItem: _selectedSoldQuantity,
-                    ),
-                    itemExtent: 32,
-                    onSelectedItemChanged: (index) {
-                      setState(() {
-                        _selectedSoldQuantity = index;
-                        editGoodsBloc.add(EditGoodsSoldQuantityChanged(index));
-                      });
-                    },
-                    children: List.generate(
-                      _setQuantity + 1,
-                      (index) => Text(
-                        index.toString(),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-          child: const Text('設定已售出數量'),
-        ),
-        const SizedBox(width: 20),
-        Text(_selectedSoldQuantity.toString()),
+    return TextFormField(
+      key: const Key('editGoodsForm_soldQuantityInput_textField'),
+      keyboardType: TextInputType.number,
+      initialValue: (state.initialGoods?.soldQuantity ?? 0).toString(),
+      decoration: InputDecoration(
+        enabled: !state.status.isLoadingOrSuccess,
+        labelText: '設定已售出數量',
+      ),
+      maxLength: 25,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(25),
+        FilteringTextInputFormatter.allow(RegExp(r'[Z0-9\s]')),
       ],
+      onChanged: (value) {
+        if (value == '') {
+          value = '0';
+        }
+        context.read<EditGoodsBloc>().add(
+              EditGoodsSoldQuantityChanged(int.parse(value)),
+            );
+      },
     );
   }
 }

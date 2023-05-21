@@ -1,6 +1,6 @@
 name: flutter_store
 description: An example store app that showcases bloc state management patterns.
-version: 1.0.0+1
+version: 1.0.1
 publish_to: none
 
 environment:

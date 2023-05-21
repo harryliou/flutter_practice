@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_store/store/store.dart';
 import 'package:goods_repository/goods_repository.dart';
@@ -103,54 +104,142 @@ class GoodsListView extends StatelessWidget {
                                         );
                                   },
                                   onTap: () {
-                                    showModalBottomSheet<Widget>(
+                                    showDialog<Widget>(
                                       context: context,
-                                      builder: (context) {
-                                        return Column(
+                                      barrierDismissible: false,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('設定即將售出數量'),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text(
-                                              '設定${goods.name}即將售出數量',
+                                            Text('精油: ${goods.name}'),
+                                            const SizedBox(
+                                              height: 16,
                                             ),
-                                            SizedBox(
-                                              height: 200,
-                                              child: CupertinoPicker(
-                                                scrollController:
-                                                    FixedExtentScrollController(
-                                                  initialItem:
-                                                      goods.atStoreQuantity,
-                                                ),
-                                                itemExtent: 32,
-                                                onSelectedItemChanged: (index) {
+                                            TextFormField(
+                                              initialValue: goods
+                                                  .atStoreQuantity
+                                                  .toString(),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              maxLength: 25,
+                                              inputFormatters: [
+                                                LengthLimitingTextInputFormatter(
+                                                    25),
+                                                FilteringTextInputFormatter
+                                                    .allow(RegExp(r'[Z0-9\s]')),
+                                              ],
+                                              onChanged: (value) {
+                                                var maxNumber = goods.quantity -
+                                                    goods.soldQuantity;
+                                                if (maxNumber < 0) {
+                                                  maxNumber = 0;
+                                                }
+                                                if (value == '') {
+                                                  value = '0';
+                                                }
+                                                final valueInt =
+                                                    int.parse(value);
+                                                if (valueInt > maxNumber) {
+                                                  showDialog<Widget>(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (context) =>
+                                                        AlertDialog(
+                                                      title: const Text('錯誤'),
+                                                      content: Text(
+                                                          '即將售出數量不可大於目前庫存數量: $maxNumber'),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                              context,
+                                                            ).popUntil(
+                                                                (route) => route
+                                                                    .isFirst);
+                                                          },
+                                                          child:
+                                                              const Text('返回'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
                                                   listBloc.add(
                                                     ListAtStoreQuantityChanged(
                                                       goods: goods,
-                                                      atStoreQuantity: index,
+                                                      atStoreQuantity:
+                                                          maxNumber,
                                                     ),
                                                   );
-                                                },
-                                                children: List.generate(
-                                                  ((goods.quantity -
-                                                              goods
-                                                                  .soldQuantity) >=
-                                                          0)
-                                                      ? (goods.quantity -
-                                                              goods
-                                                                  .soldQuantity) +
-                                                          1
-                                                      : 1,
-                                                  (index) => Text(
-                                                    index.toString(),
-                                                    style: const TextStyle(
-                                                      fontSize: 20,
+                                                  // Navigator.of(context).pop();
+                                                } else {
+                                                  listBloc.add(
+                                                    ListAtStoreQuantityChanged(
+                                                      goods: goods,
+                                                      atStoreQuantity: valueInt,
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
+                                                  );
+                                                }
+                                              },
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text('返回'),
                                             ),
                                           ],
-                                        );
-                                      },
+                                        ),
+                                      ),
                                     );
+                                    //   showModalBottomSheet<Widget>(
+                                    //     context: context,
+                                    //     builder: (context) {
+                                    //       return Column(
+                                    //         children: [
+                                    //           Text(
+                                    //             '設定${goods.name}即將售出數量',
+                                    //           ),
+                                    //           SizedBox(
+                                    //             height: 200,
+                                    //             child: CupertinoPicker(
+                                    //               scrollController:
+                                    //                   FixedExtentScrollController(
+                                    //                 initialItem:
+                                    //                     goods.atStoreQuantity,
+                                    //               ),
+                                    //               itemExtent: 32,
+                                    //               onSelectedItemChanged: (index) {
+                                    //                 listBloc.add(
+                                    //                   ListAtStoreQuantityChanged(
+                                    //                     goods: goods,
+                                    //                     atStoreQuantity: index,
+                                    //                   ),
+                                    //                 );
+                                    //               },
+                                    //               children: List.generate(
+                                    //                 ((goods.quantity -
+                                    //                             goods
+                                    //                                 .soldQuantity) >=
+                                    //                         0)
+                                    //                     ? (goods.quantity -
+                                    //                             goods
+                                    //                                 .soldQuantity) +
+                                    //                         1
+                                    //                     : 1,
+                                    //                 (index) => Text(
+                                    //                   index.toString(),
+                                    //                   style: const TextStyle(
+                                    //                     fontSize: 20,
+                                    //                   ),
+                                    //                 ),
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ],
+                                    //       );
+                                    //     },
+                                    //   );
                                   },
                                 ),
                               ],

@@ -27,7 +27,7 @@ class GoodsListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('清單'),
+        title: const Text('庫存'),
         actions: const [
           ListFilterButton(),
           ListOptionsButton(),

@@ -68,6 +68,7 @@ class GoodsListView extends StatelessWidget {
                 final screenHeight = constraints.maxHeight;
                 final scrollHeight = screenHeight * 0.7;
                 final columnHeight = screenHeight - scrollHeight;
+                final FocusNode focusNode = new FocusNode();
 
                 return Column(
                   children: [
@@ -104,94 +105,116 @@ class GoodsListView extends StatelessWidget {
                                         );
                                   },
                                   onTap: () {
+                                    TextEditingController
+                                        _textEditingController =
+                                        TextEditingController(
+                                            text: goods.atStoreQuantity
+                                                .toString());
                                     showDialog<Widget>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text('設定即將售出數量'),
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text('精油: ${goods.name}'),
-                                            const SizedBox(
-                                              height: 16,
-                                            ),
-                                            TextFormField(
-                                              initialValue: goods
-                                                  .atStoreQuantity
-                                                  .toString(),
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              maxLength: 25,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(
-                                                    25),
-                                                FilteringTextInputFormatter
-                                                    .allow(RegExp(r'[Z0-9\s]')),
-                                              ],
-                                              onChanged: (value) {
-                                                var maxNumber = goods.quantity -
-                                                    goods.soldQuantity;
-                                                if (maxNumber < 0) {
-                                                  maxNumber = 0;
-                                                }
-                                                if (value == '') {
-                                                  value = '0';
-                                                }
-                                                final valueInt =
-                                                    int.parse(value);
-                                                if (valueInt > maxNumber) {
-                                                  showDialog<Widget>(
-                                                    context: context,
-                                                    barrierDismissible: false,
-                                                    builder: (context) =>
-                                                        AlertDialog(
-                                                      title: const Text('錯誤'),
-                                                      content: Text(
-                                                          '即將售出數量不可大於目前庫存數量: $maxNumber'),
-                                                      actions: [
-                                                        ElevatedButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                              context,
-                                                            ).popUntil(
-                                                                (route) => route
-                                                                    .isFirst);
-                                                          },
-                                                          child:
-                                                              const Text('返回'),
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          // WidgetsBinding.instance.addPostFrameCallback((_) {
+                                          //       FocusScope.of(context).requestFocus(_textEditingController.);
+                                          //       Future.delayed(Duration(milliseconds: 100), () {
+                                          //         FocusScope.of(context).requestFocus(_textEditingController.focusNode);
+                                          //       });
+                                          //     });
+                                          return AlertDialog(
+                                            title: const Text('設定即將售出數量'),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text('精油: ${goods.name}'),
+                                                const SizedBox(
+                                                  height: 16,
+                                                ),
+                                                TextFormField(
+                                                  focusNode: focusNode,
+                                                  controller:
+                                                      _textEditingController,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  maxLength: 25,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(
+                                                      25,
+                                                    ),
+                                                    FilteringTextInputFormatter
+                                                        .allow(
+                                                      RegExp(
+                                                        r'[Z0-9\s]',
+                                                      ),
+                                                    ),
+                                                  ],
+                                                  onChanged: (value) {
+                                                    var maxNumber =
+                                                        goods.quantity -
+                                                            goods.soldQuantity;
+                                                    if (maxNumber < 0) {
+                                                      maxNumber = 0;
+                                                    }
+                                                    if (value == '') {
+                                                      value = '0';
+                                                    }
+                                                    final valueInt =
+                                                        int.parse(value);
+                                                    if (valueInt > maxNumber) {
+                                                      showDialog<Widget>(
+                                                        context: context,
+                                                        barrierDismissible:
+                                                            false,
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                          title:
+                                                              const Text('錯誤'),
+                                                          content: Text(
+                                                              '即將售出數量不可大於目前庫存數量: $maxNumber'),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                  context,
+                                                                ).popUntil(
+                                                                    (route) => route
+                                                                        .isFirst);
+                                                              },
+                                                              child: const Text(
+                                                                '返回',
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                  listBloc.add(
-                                                    ListAtStoreQuantityChanged(
-                                                      goods: goods,
-                                                      atStoreQuantity:
-                                                          maxNumber,
-                                                    ),
-                                                  );
-                                                  // Navigator.of(context).pop();
-                                                } else {
-                                                  listBloc.add(
-                                                    ListAtStoreQuantityChanged(
-                                                      goods: goods,
-                                                      atStoreQuantity: valueInt,
-                                                    ),
-                                                  );
-                                                }
-                                              },
+                                                      );
+                                                      listBloc.add(
+                                                        ListAtStoreQuantityChanged(
+                                                          goods: goods,
+                                                          atStoreQuantity:
+                                                              maxNumber,
+                                                        ),
+                                                      );
+                                                      // Navigator.of(context).pop();
+                                                    } else {
+                                                      listBloc.add(
+                                                        ListAtStoreQuantityChanged(
+                                                          goods: goods,
+                                                          atStoreQuantity:
+                                                              valueInt,
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('返回'),
+                                                ),
+                                              ],
                                             ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text('返回'),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
+                                          );
+                                        });
                                     //   showModalBottomSheet<Widget>(
                                     //     context: context,
                                     //     builder: (context) {
@@ -240,6 +263,13 @@ class GoodsListView extends StatelessWidget {
                                     //       );
                                     //     },
                                     //   );
+                                    focusNode.requestFocus();
+                                    _textEditingController.selection =
+                                        TextSelection(
+                                      baseOffset: 0,
+                                      extentOffset: _textEditingController
+                                          .value.text.length,
+                                    );
                                   },
                                 ),
                               ],
@@ -252,8 +282,8 @@ class GoodsListView extends StatelessWidget {
                       height: columnHeight,
                       child: Column(
                         children: [
-                          Text('目前商店精油總數量: ${state.atStoreGoods.length}'),
-                          Text('即將售出價格: ${state.atStoreGoodsTotalPrice}'),
+                          Text('商店精油種類: ${state.atStoreGoods.length}'),
+                          Text('總計: ${state.atStoreGoodsTotalPrice}'),
                           ElevatedButton(
                             onPressed: () {
                               listBloc.add(

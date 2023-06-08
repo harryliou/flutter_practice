@@ -23,7 +23,7 @@ class GoodsListTitle extends StatelessWidget {
     return Dismissible(
       key: Key('goodsListTile_dismissible_${goods.id}'),
       onDismissed: onDismissed,
-      direction: DismissDirection.endToStart,
+      direction: DismissDirection.none, //DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,
         color: theme.colorScheme.error,
@@ -46,7 +46,7 @@ class GoodsListTitle extends StatelessWidget {
             Text('容量: ${goods.capacity}'),
             Text('單價: ${goods.unitPrice}'),
             Text('進貨數量: ${goods.quantity}'),
-            Text('已售出數量: ${goods.soldQuantity}'),
+            Text('售出數量: ${goods.soldQuantity}'),
             Text('進貨日期: ${'${goods.purchaseDate.toLocal()}'.split(' ')[0]}'),
             Text('過期日期: ${'${goods.expirationDate.toLocal()}'.split(' ')[0]}'),
           ],

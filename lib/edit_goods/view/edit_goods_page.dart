@@ -230,7 +230,7 @@ class _SoldQuantityField extends StatelessWidget {
       initialValue: (state.initialGoods?.soldQuantity ?? 0).toString(),
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
-        labelText: '設定已售出數量',
+        labelText: '設定售出數量',
       ),
       maxLength: 25,
       inputFormatters: [

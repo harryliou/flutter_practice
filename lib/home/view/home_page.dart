@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               iconSize: 50,
               icon: const Icon(Icons.list),
+              color: _selectedIndex == 0 ? Colors.blue : Colors.white,
               onPressed: () {
                 setState(() {
                   _selectedIndex = 0;
@@ -44,6 +45,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               iconSize: 50,
               icon: const Icon(Icons.store),
+              color: _selectedIndex == 1 ? Colors.blue : Colors.white,
               onPressed: () {
                 setState(() {
                   _selectedIndex = 1;
